@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>缅香阁 - 缅甸小零食·中缅边境风味</title>
+    <style>
+        :root {
+            --primary: #8B6914;
+            --primary-light: #A6842B;
+            --primary-dark: #6B4F10;
+            --bg: #FFF8F0;
+            --bg-card: #FFFFFF;
+            --text: #3D3529;
+            --text-light: #6B5E4A;
+            --text-muted: #9B8E7A;
+            --border: #E8DCC8;
+            --accent: #C49A3C;
+            --success: #5B8C5A;
+            --danger: #C0392B;
+            --warning: #D4A017;
+            --shadow-sm: 0 1px 3px rgba(61, 53, 41, 0.08);
+            --shadow: 0 2px 8px rgba(61, 53, 41, 0.10);
+            --shadow-lg: 0 8px 30px rgba(61, 53, 41, 0.15);
+            --radius-sm: 8px;
+            --radius: 12px;
+            --radius-lg: 16px;
+            --transition: 0.2s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            padding: 0 24px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-sm);
+        }
+        .navbar-brand {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        .navbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .btn-cart {
+            position: relative;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 24px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-cart:hover { background: var(--primary-dark); transform: translateY(-1px); }
+        .cart-badge {
+            background: #fff;
+            color: var(--primary);
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+        .btn-shop {
+            background: transparent;
+            border: 1.5px solid var(--accent);
+            color: var(--accent);
+            padding: 8px 16px;
+            border-radius: 24px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        .btn-shop:hover { background: var(--accent); color: #fff; }
+        .user-name-section {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            color: var(--text);
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.8rem;
+        }
+
+        .hero {
+            height: 280px;
+            background: linear-gradient(135deg, #3D3529 0%, #5C4A2E 30%, #8B6914 70%, #A6842B 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%; right: -20%;
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%; left: -10%;
+            width: 300px; height: 300px;
+            background: radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        .hero-content { position: relative; z-index: 1; max-width: 600px; padding: 0 20px; }
+        .hero-content h1 { font-size: 2.2rem; font-weight: 700; margin-bottom: 8px; letter-spacing: 1px; }
+        .hero-content p { font-size: 1rem; opacity: 0.9; font-weight: 400; }
+        .hero-emoji { font-size: 2.8rem; display: block; margin-bottom: 8px; }
+
+        .main-container { max-width: 1200px; margin: 0 auto; padding: 24px 20px; flex: 1; display: flex; gap: 24px; }
+        .menu-section { flex: 1; min-width: 0; }
+        .category-tabs {
+            display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;
+            background: var(--bg-card); padding: 6px;
+            border-radius: var(--radius); box-shadow: var(--shadow-sm);
+        }
+        .category-tab {
+            padding: 10px 18px; border-radius: var(--radius-sm); cursor: pointer;
+            font-weight: 600; font-size: 0.9rem; transition: var(--transition);
+            border: none; background: transparent; color: var(--text-light); white-space: nowrap;
+        }
+        .category-tab.active { background: var(--primary); color: #fff; box-shadow: var(--shadow); }
+        .category-tab:hover:not(.active) { background: #F5EDE0; color: var(--primary-dark); }
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+        .menu-card {
+            background: var(--bg-card); border-radius: var(--radius-lg); overflow: hidden;
+            box-shadow: var(--shadow-sm); transition: var(--transition);
+            border: 1px solid var(--border); display: flex; flex-direction: column;
+        }
+        .menu-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+        .menu-card-img {
+            width: 100%; height: 160px; background: #F5EDE0;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 3.5rem; position: relative; overflow: hidden;
+        }
+        .menu-card-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .menu-card-img .img-fallback { font-size: 3.5rem; }
+        .menu-card-body { padding: 14px; flex: 1; display: flex; flex-direction: column; }
+        .menu-card-title { font-weight: 700; font-size: 1rem; color: var(--text); margin-bottom: 4px; }
+        .menu-card-desc { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px; flex: 1; }
+        .menu-card-rating { display: flex; align-items: center; gap: 4px; margin-bottom: 8px; font-size: 0.85rem; }
+        .stars { color: #F0A500; letter-spacing: 1px; }
+        .rating-count { color: var(--text-muted); font-size: 0.78rem; }
+        .menu-card-footer { display: flex; align-items: center; justify-content: space-between; }
+        .menu-card-price { font-weight: 700; font-size: 1.1rem; color: var(--primary-dark); }
+        .btn-add {
+            background: var(--primary); color: #fff; border: none; padding: 7px 14px;
+            border-radius: 20px; cursor: pointer; font-size: 0.85rem; font-weight: 600;
+            transition: var(--transition); white-space: nowrap;
+        }
+        .btn-add:hover { background: var(--primary-dark); transform: scale(1.04); }
+        .btn-add.added { background: var(--success); animation: popIn 0.3s ease; }
+        @keyframes popIn {
+            0% { transform: scale(0.9); } 50% { transform: scale(1.1); } 100% { transform: scale(1); }
+        }
+
+        /* 抽屉 购物车 */
+        .drawer-overlay {
+            position: fixed; inset: 0; background: rgba(61,53,41,0.5);
+            z-index: 200; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+        }
+        .drawer-overlay.open { opacity: 1; pointer-events: auto; }
+        .drawer {
+            position: fixed; top: 0; right: 0; width: 420px; max-width: 90vw;
+            height: 100vh; background: var(--bg-card); z-index: 201;
+            box-shadow: -4px 0 30px rgba(61,53,41,0.2);
+            transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+            display: flex; flex-direction: column;
+        }
+        .drawer.open { transform: translateX(0); }
+        .drawer-header {
+            padding: 16px 20px; border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between;
+            font-weight: 700; font-size: 1.1rem;
+        }
+        .btn-close-drawer {
+            background: none; border: none; font-size: 1.5rem;
+            cursor: pointer; color: var(--text-muted); padding: 0 4px;
+        }
+        .drawer-body { flex: 1; overflow-y: auto; padding: 16px 20px; }
+        .cart-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 10px 0; border-bottom: 1px solid #F5EDE0;
+        }
+        .cart-item-img {
+            width: 50px; height: 50px; border-radius: var(--radius-sm);
+            background: #F5EDE0; display: flex; align-items: center;
+            justify-content: center; font-size: 1.8rem; flex-shrink: 0;
+        }
+        .cart-item-info { flex: 1; min-width: 0; }
+        .cart-item-name { font-weight: 600; font-size: 0.9rem; }
+        .cart-item-price { font-size: 0.8rem; color: var(--text-muted); }
+        .cart-item-qty { display: flex; align-items: center; gap: 6px; }
+        .btn-qty {
+            width: 26px; height: 26px; border-radius: 50%;
+            border: 1.5px solid var(--border); background: #fff;
+            cursor: pointer; font-weight: 700; font-size: 0.9rem;
+            display: flex; align-items: center; justify-content: center;
+            transition: var(--transition); color: var(--text);
+        }
+        .btn-qty:hover { background: #F5EDE0; border-color: var(--accent); }
+        .cart-item-qty span { min-width: 20px; text-align: center; font-weight: 600; }
+        .cart-empty { text-align: center; padding: 40px 20px; color: var(--text-muted); }
+        .cart-empty-icon { font-size: 3rem; display: block; margin-bottom: 12px; }
+        .drawer-footer { border-top: 1px solid var(--border); padding: 16px 20px; }
+        .cart-summary-row { display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 6px; }
+        .cart-summary-row.total { font-weight: 700; font-size: 1.1rem; color: var(--primary-dark); }
+        .delivery-fee { color: var(--text-muted); font-size: 0.8rem; }
+        .delivery-select { margin: 10px 0; }
+        .delivery-select select, .delivery-select input {
+            width: 100%; padding: 10px 12px; border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm); font-size: 0.9rem;
+            background: #fff; color: var(--text); margin-top: 4px;
+        }
+        .delivery-select label { font-weight: 600; font-size: 0.85rem; color: var(--text-light); display: block; margin-top: 8px; }
+        .payment-options { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+        .payment-option {
+            padding: 8px 12px; border: 1.5px solid var(--border);
+            border-radius: 20px; cursor: pointer; font-size: 0.8rem; font-weight: 600;
+            transition: var(--transition); background: #fff; color: var(--text-light);
+        }
+        .payment-option.selected { border-color: var(--primary); background: #FFF8F0; color: var(--primary-dark); }
+        .countdown {
+            text-align: center; font-weight: 700; color: var(--danger);
+            margin: 10px 0; font-size: 1rem; background: #FFF5F5;
+            padding: 8px; border-radius: var(--radius-sm);
+        }
+        .btn-checkout {
+            width: 100%; background: var(--primary); color: #fff;
+            border: none; padding: 14px; border-radius: var(--radius);
+            font-weight: 700; font-size: 1rem; cursor: pointer;
+            transition: var(--transition); margin-top: 10px;
+        }
+        .btn-checkout:hover { background: var(--primary-dark); }
+        .btn-checkout:disabled { background: #C4B89A; cursor: not-allowed; }
+
+        .site-footer {
+            background: #3D3529; color: #C4B89A;
+            text-align: center; padding: 24px 20px; font-size: 0.85rem; margin-top: auto;
+        }
+
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(61,53,41,0.6);
+            z-index: 300; display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+        }
+        .modal-overlay.open { opacity: 1; pointer-events: auto; }
+        .modal {
+            background: #fff; border-radius: var(--radius-lg);
+            padding: 28px 24px; max-width: 420px; width: 90%; box-shadow: var(--shadow-lg);
+        }
+        .modal h3 { margin-bottom: 16px; color: var(--text); }
+        .modal input, .modal textarea {
+            width: 100%; padding: 10px 12px; border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm); font-size: 0.9rem; margin-bottom: 12px; font-family: inherit;
+        }
+        .modal textarea { resize: vertical; min-height: 80px; }
+        .modal-buttons { display: flex; gap: 10px; justify-content: flex-end; }
+        .btn-primary {
+            background: var(--primary); color: #fff; border: none;
+            padding: 10px 20px; border-radius: 24px; cursor: pointer; font-weight: 600;
+        }
+        .btn-secondary {
+            background: #E8DCC8; color: var(--text); border: none;
+            padding: 10px 20px; border-radius: 24px; cursor: pointer; font-weight: 600;
+        }
+
+        .toast {
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            background: #3D3529; color: #fff; padding: 12px 24px; border-radius: 24px;
+            font-weight: 600; z-index: 500; animation: fadeUp 0.3s ease; box-shadow: var(--shadow-lg);
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .main-container { padding: 16px 12px; flex-direction: column; }
+            .menu-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
+            .hero { height: 220px; }
+            .hero-content h1 { font-size: 1.6rem; }
+            .drawer { width: 100%; max-width: 100vw; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="navbar-brand" onclick="location.reload()"><span class="leaf">🥭</span> 缅香阁</div>
+        <div class="navbar-actions">
+            <button class="btn-shop" onclick="openShopModal()">🏪 开店铺</button>
+            <span class="user-name-section" id="userNameDisplay" onclick="openNameModal()">
+                <span class="user-avatar" id="userAvatar">客</span>
+                <span id="userNameText">点击取名</span>
+            </span>
+            <button class="btn-cart" onclick="openCart()">🛒 购物车 <span class="cart-badge" id="cartCount">0</span></button>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <span class="hero-emoji">🥭🍋</span>
+            <h1>缅香阁 · 缅甸小零食</h1>
+            <p>酸辣芒果干 · 木姐拌木瓜 · 中缅边境风味 · 缅式下午茶</p>
+        </div>
+    </section>
+
+    <div class="main-container">
+        <div class="menu-section">
+            <div class="category-tabs" id="categoryTabs">
+                <button class="category-tab active" data-cat="snacks">🍬 缅甸小零食</button>
+                <button class="category-tab" data-cat="sourmango">🥭 酸芒果·凉拌</button>
+                <button class="category-tab" data-cat="mujie">🏘️ 木姐风味</button>
+                <button class="category-tab" data-cat="drinks">🥤 缅式饮品</button>
+                <button class="category-tab" data-cat="custom">🛎️ 自营小店</button>
+            </div>
+            <div class="menu-grid" id="menuGrid"></div>
+        </div>
+    </div>
+
+    <div class="drawer-overlay" id="drawerOverlay" onclick="closeCart()"></div>
+    <div class="drawer" id="drawer">
+        <div class="drawer-header">🛒 购物车 <button class="btn-close-drawer" onclick="closeCart()">✕</button></div>
+        <div class="drawer-body" id="cartItems">
+            <div class="cart-empty"><span class="cart-empty-icon">🛒</span><p>购物车空空如也～</p><p style="font-size:0.8rem;">来点酸芒果干吧！</p></div>
+        </div>
+        <div class="drawer-footer">
+            <div class="delivery-select">
+                <label>📍 送餐地址</label>
+                <input type="text" id="deliveryAddress" placeholder="请输入您的详细地址...">
+                <label>⏰ 送餐时间</label>
+                <select id="deliveryTime">
+                    <option>尽快送达（约30分钟）</option><option>12:00 - 13:00</option><option>17:00 - 18:00</option><option>19:00 - 20:00</option><option>明天上午</option>
+                </select>
+            </div>
+            <div class="delivery-select">
+                <label>💳 支付方式</label>
+                <div class="payment-options" id="paymentOptions">
+                    <span class="payment-option selected" data-pay="wechat">微信支付</span>
+                    <span class="payment-option" data-pay="alipay">支付宝</span>
+                    <span class="payment-option" data-pay="cash">现金</span>
+                    <span class="payment-option" data-pay="kbz">KBZ银行</span>
+                    <span class="payment-option" data-pay="aya">AYA银行</span>
+                </div>
+            </div>
+            <div class="cart-summary-row"><span>小计</span><span id="subtotal">¥0.00</span></div>
+            <div class="cart-summary-row"><span>配送费</span><span class="delivery-fee" id="deliveryFee">¥5.00</span></div>
+            <div class="cart-summary-row total"><span>合计</span><span id="totalPrice">¥5.00</span></div>
+            <div class="countdown" id="countdown">⏳ 订单确认倒计时 15:00</div>
+            <button class="btn-checkout" id="btnCheckout" onclick="checkout()">确认下单</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="nameModal">
+        <div class="modal">
+            <h3>👤 给自己起个名字吧</h3>
+            <input type="text" id="nameInput" placeholder="例如：缅甸小吃货、南坎阿妹~~">
+            <div class="modal-buttons">
+                <button class="btn-secondary" onclick="closeNameModal()">取消</button>
+                <button class="btn-primary" onclick="saveName()">开始点餐 ✨</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="shopModal">
+        <div class="modal">
+            <h3>🏪 开你的小店铺</h3>
+            <input type="text" id="shopItemName" placeholder="商品名称，如：傣味炸猪皮">
+            <input type="text" id="shopItemPrice" placeholder="价格，如：15.00">
+            <textarea id="shopItemDesc" placeholder="描述一下你的美食..."></textarea>
+            <div class="modal-buttons">
+                <button class="btn-secondary" onclick="closeShopModal()">取消</button>
+                <button class="btn-primary" onclick="addShopItem()">上架到菜单 🛎️</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <p>🥭 缅香阁 · 中缅边境风味 | 支持现金 · 微信 · 支付宝 · KBZ · AYA支付</p>
+        <p style="margin-top:4px;font-size:0.78rem;">© 2026 缅香阁 - 来自缅甸木姐与瑞丽的传统小零食</p>
+    </footer>
+
+    <script>
+        // ==================== 菜单数据（使用SVG占位图作为色块背景，Emoji在前） ====================
+        // 如果你有真实图片URL，替换掉 imageUrl 字段即可
+        const menuData = {
+    snacks: [
+        { id: 1, name: '酸角片', emoji: '🍬', imageUrl: 'https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=400&h=300&fit=crop', desc: '缅甸特产酸角片，酸甜开胃', price: 8.5, rating: 4.8, reviews: 326 },
+        { id: 2, name: '椰子糖', emoji: '🥥', imageUrl: 'https://images.unsplash.com/photo-1589138434841-8d9b872d4c38?w=400&h=300&fit=crop', desc: '缅式手工椰子糖，浓郁椰香', price: 6.0, rating: 4.7, reviews: 218 },
+        { id: 3, name: '芝麻花生糖', emoji: '🥜', imageUrl: 'https://images.unsplash.com/photo-1599490654523-1151f7f9c046?w=400&h=300&fit=crop', desc: '木姐传统芝麻花生糖，酥脆不粘牙', price: 7.5, rating: 4.6, reviews: 187 },
+        { id: 4, name: '缅甸奶茶包', emoji: '☕', imageUrl: 'https://images.unsplash.com/photo-1558857563-b371033873b8?w=400&h=300&fit=crop', desc: '正宗缅甸拉茶即溶包', price: 12.0, rating: 4.9, reviews: 452 },
+        { id: 5, name: '炸蚕豆', emoji: '🫘', imageUrl: 'https://images.unsplash.com/photo-1615485290382-6e89f6ab75f4?w=400&h=300&fit=crop', desc: '缅式香酥炸蚕豆，微辣咸香', price: 5.5, rating: 4.5, reviews: 143 },
+        { id: 6, name: '芒果干', emoji: '🥭', imageUrl: 'https://images.unsplash.com/photo-1603834304247-628c97aad634?w=400&h=300&fit=crop', desc: '缅甸象牙芒果干，厚切无添加', price: 15.0, rating: 4.9, reviews: 589 },
+        { id: 7, name: '榴莲糖', emoji: '🍈', imageUrl: 'https://images.unsplash.com/photo-1623798274088-2a09b4c9a78d?w=400&h=300&fit=crop', desc: '缅甸金枕头榴莲糖', price: 9.0, rating: 4.4, reviews: 201 },
+        { id: 8, name: '缅甸方便面', emoji: '🍜', imageUrl: 'https://images.unsplash.com/photo-1569717916397-7da2a9a1c2d2?w=400&h=300&fit=crop', desc: 'MAMA牌缅式酸辣方便面', price: 3.5, rating: 4.3, reviews: 167 },
+    ],
+    sourmango: [
+        { id: 9, name: '凉拌酸芒果', emoji: '🥭', imageUrl: 'https://images.unsplash.com/photo-1553702672-f8c4a0b1e6b6?w=400&h=300&fit=crop', desc: '青芒果丝拌辣椒盐糖，瑞丽经典', price: 10.0, rating: 5.0, reviews: 892 },
+        { id: 10, name: '酸芒果蘸水', emoji: '🌶️', imageUrl: 'https://images.unsplash.com/photo-1589500382511-c7f3c9e4d4cd?w=400&h=300&fit=crop', desc: '缅甸酸芒果配特制蘸水', price: 8.0, rating: 4.8, reviews: 456 },
+        { id: 11, name: '拌木瓜丝', emoji: '🟡', imageUrl: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400&h=300&fit=crop', desc: '木姐风拌青木瓜，酸辣脆爽', price: 9.0, rating: 4.9, reviews: 623 },
+        { id: 12, name: '腌芒果条', emoji: '🥭', imageUrl: 'https://images.unsplash.com/photo-1603834304247-628c97aad634?w=400&h=300&fit=crop', desc: '缅甸华侨秘制腌芒果条', price: 11.0, rating: 4.7, reviews: 334 },
+        { id: 13, name: '酸辣凉拌李子', emoji: '🟣', imageUrl: 'https://images.unsplash.com/photo-1609726432447-6fe7cf1a5b8b?w=400&h=300&fit=crop', desc: '缅甸青李子拌辣盐', price: 7.0, rating: 4.6, reviews: 278 },
+        { id: 14, name: '拌柚子', emoji: '🍊', imageUrl: 'https://images.unsplash.com/photo-1557800636-894a64c1696f?w=400&h=300&fit=crop', desc: '缅式凉拌柚子沙拉', price: 13.0, rating: 4.5, reviews: 189 },
+    ],
+    mujie: [
+        { id: 15, name: '木姐拌面', emoji: '🍝', imageUrl: 'https://images.unsplash.com/photo-1552611052-33e04de1b100?w=400&h=300&fit=crop', desc: '木姐特色拌面，花生碎+酸辣酱', price: 12.0, rating: 4.9, reviews: 567 },
+        { id: 16, name: '缅甸茶叶沙拉', emoji: '🍃', imageUrl: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400&h=300&fit=crop', desc: '拉佩豆，发酵茶叶拌豆子', price: 14.0, rating: 4.8, reviews: 432 },
+        { id: 17, name: '缅式炸春卷', emoji: '🥟', imageUrl: 'https://images.unsplash.com/photo-1569058242567-586af4b4e66c?w=400&h=300&fit=crop', desc: '木姐酥炸春卷，虾肉馅', price: 10.0, rating: 4.7, reviews: 345 },
+        { id: 18, name: '掸邦豆腐', emoji: '🫘', imageUrl: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=300&fit=crop', desc: '掸邦风味煎豆腐，配花生酱', price: 9.0, rating: 4.6, reviews: 234 },
+        { id: 19, name: '缅式咖喱角', emoji: '🥠', imageUrl: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&h=300&fit=crop', desc: '木姐咖喱角，土豆鸡肉馅', price: 8.0, rating: 4.5, reviews: 198 },
+        { id: 20, name: '鱼汤米粉', emoji: '🍲', imageUrl: 'https://images.unsplash.com/photo-1569717916397-7da2a9a1c2d2?w=400&h=300&fit=crop', desc: '缅甸鱼汤米粉，木姐早餐首选', price: 16.0, rating: 4.9, reviews: 678 },
+    ],
+    drinks: [
+        { id: 21, name: '缅甸奶茶', emoji: '🧋', imageUrl: 'https://images.unsplash.com/photo-1558857563-b371033873b8?w=400&h=300&fit=crop', desc: '正宗缅甸拉茶，炼奶浓香', price: 8.0, rating: 4.9, reviews: 789 },
+        { id: 22, name: '酸角汁', emoji: '🥤', imageUrl: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400&h=300&fit=crop', desc: '冰镇缅甸酸角汁', price: 6.0, rating: 4.7, reviews: 345 },
+        { id: 23, name: '椰子水', emoji: '🧉', imageUrl: 'https://images.unsplash.com/photo-1525385133512-2f3bdd039054?w=400&h=300&fit=crop', desc: '新鲜缅甸青椰水', price: 10.0, rating: 4.8, reviews: 456 },
+        { id: 24, name: '缅式咖啡', emoji: '☕', imageUrl: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&h=300&fit=crop', desc: '缅甸咖啡加炼奶', price: 9.0, rating: 4.6, reviews: 234 },
+        { id: 25, name: '柠檬草茶', emoji: '🍵', imageUrl: 'https://images.unsplash.com/photo-1571934811356-5cc061b6821f?w=400&h=300&fit=crop', desc: '缅式柠檬草香茅茶', price: 7.0, rating: 4.5, reviews: 167 },
+    ],
+    custom: []
+};
+
+        let cart = [];
+        let currentCat = 'snacks';
+        let userName = '';
+        let countdownTimer = null;
+        let countdownSeconds = 900;
+
+        function init() {
+            renderMenu();
+            setupCategoryTabs();
+            setupPaymentOptions();
+            const savedName = localStorage.getItem('mianxiangge_userName');
+            if (savedName) { userName = savedName; updateUserNameDisplay(); }
+            else { setTimeout(() => openNameModal(), 500); }
+            const savedCustom = localStorage.getItem('mianxiangge_customItems');
+            if (savedCustom) { menuData.custom = JSON.parse(savedCustom); }
+            startCountdown();
+        }
+
+        function updateUserNameDisplay() {
+            document.getElementById('userNameText').textContent = userName || '点击取名';
+            document.getElementById('userAvatar').textContent = userName ? userName.charAt(0) : '客';
+        }
+
+        function renderMenu() {
+            const grid = document.getElementById('menuGrid');
+            const items = menuData[currentCat] || [];
+            if (items.length === 0 && currentCat === 'custom') {
+                grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-muted);"><span style="font-size:3rem;display:block;">🏪</span><p>还没有自营商品</p><p style="font-size:0.85rem;">点击导航栏"开店铺"上架你的美食吧！</p></div>`;
+                return;
+            }
+            grid.innerHTML = items.map(item => {
+                // 优先使用imageUrl，如果没有就用纯色背景+大号Emoji
+                const imgContent = item.imageUrl
+                    ? `<img src="${item.imageUrl}" alt="${item.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">`
+                    : '';
+                const colorBg = `background-color:${item.color || '#F5EDE0'};`;
+                const fallbackContent = `<span class="img-fallback" style="display:${item.imageUrl?'none':'flex'};${colorBg}width:100%;height:100%;align-items:center;justify-content:center;">${item.emoji}</span>`;
+                return `
+                <div class="menu-card" data-id="${item.id}">
+                    <div class="menu-card-img" style="${item.imageUrl?'':colorBg}">
+                        ${imgContent}
+                        ${fallbackContent}
+                    </div>
+                    <div class="menu-card-body">
+                        <h3 class="menu-card-title">${item.name}</h3>
+                        <p class="menu-card-desc">${item.desc}</p>
+                        <div class="menu-card-rating">
+                            <span class="stars">${'★'.repeat(Math.floor(item.rating))}${'☆'.repeat(5 - Math.floor(item.rating))}</span>
+                            <span class="rating-count">${item.reviews}条评价</span>
+                        </div>
+                        <div class="menu-card-footer">
+                            <span class="menu-card-price">¥${item.price.toFixed(2)}</span>
+                            <button class="btn-add" onclick="addToCart(${item.id}, '${currentCat}')">+ 加入购物车</button>
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        function setupCategoryTabs() {
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    currentCat = tab.dataset.cat;
+                    renderMenu();
+                });
+            });
+        }
+
+        function addToCart(itemId, category) {
+            const item = menuData[category].find(i => i.id === itemId);
+            if (!item) return;
+            const cartItem = cart.find(c => c.id === itemId && c.category === category);
+            if (cartItem) { cartItem.quantity += 1; }
+            else { cart.push({ ...item, category, quantity: 1 }); }
+            const btn = event.target;
+            btn.classList.add('added'); btn.textContent = '✓ 已添加';
+            setTimeout(() => { btn.classList.remove('added'); btn.textContent = '+ 加入购物车'; }, 1000);
+            updateCart();
+            showToast(`已添加 ${item.name} 到购物车`);
+        }
+
+        function updateCart() {
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cartCount').textContent = totalItems;
+            const cartItems = document.getElementById('cartItems');
+            if (cart.length === 0) {
+                cartItems.innerHTML = `<div class="cart-empty"><span class="cart-empty-icon">🛒</span><p>购物车空空如也～</p><p style="font-size:0.8rem;">来点酸芒果干吧！</p></div>`;
+            } else {
+                cartItems.innerHTML = cart.map(item => `
+                    <div class="cart-item">
+                        <div class="cart-item-img">${item.emoji}</div>
+                        <div class="cart-item-info"><div class="cart-item-name">${item.name}</div><div class="cart-item-price">¥${item.price.toFixed(2)}</div></div>
+                        <div class="cart-item-qty">
+                            <button class="btn-qty" onclick="changeQuantity(${item.id}, '${item.category}', -1)">-</button>
+                            <span>${item.quantity}</span>
+                            <button class="btn-qty" onclick="changeQuantity(${item.id}, '${item.category}', 1)">+</button>
+                        </div>
+                    </div>`).join('');
+            }
+            const subtotalAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const deliveryFee = subtotalAmount >= 30 ? 0 : 5;
+            document.getElementById('subtotal').textContent = `¥${subtotalAmount.toFixed(2)}`;
+            document.getElementById('deliveryFee').textContent = `¥${deliveryFee.toFixed(2)}`;
+            document.getElementById('totalPrice').textContent = `¥${(subtotalAmount + deliveryFee).toFixed(2)}`;
+            document.getElementById('btnCheckout').disabled = cart.length === 0;
+        }
+
+        function changeQuantity(itemId, category, change) {
+            const cartItem = cart.find(c => c.id === itemId && c.category === category);
+            if (!cartItem) return;
+            cartItem.quantity += change;
+            if (cartItem.quantity <= 0) { cart = cart.filter(c => !(c.id === itemId && c.category === category)); }
+            updateCart();
+        }
+
+        function openCart() { document.getElementById('drawerOverlay').classList.add('open'); document.getElementById('drawer').classList.add('open'); document.body.style.overflow = 'hidden'; }
+        function closeCart() { document.getElementById('drawerOverlay').classList.remove('open'); document.getElementById('drawer').classList.remove('open'); document.body.style.overflow = ''; }
+
+        function setupPaymentOptions() {
+            document.querySelectorAll('.payment-option').forEach(option => {
+                option.addEventListener('click', () => {
+                    document.querySelectorAll('.payment-option').forEach(o => o.classList.remove('selected'));
+                    option.classList.add('selected');
+                });
+            });
+        }
+
+        function startCountdown() {
+            updateCountdown();
+            countdownTimer = setInterval(() => {
+                countdownSeconds--;
+                updateCountdown();
+                if (countdownSeconds <= 0) { clearInterval(countdownTimer); showToast('订单已超时，请重新下单'); cart = []; updateCart(); closeCart(); }
+            }, 1000);
+        }
+
+        function updateCountdown() {
+            const minutes = Math.floor(countdownSeconds / 60);
+            const seconds = countdownSeconds % 60;
+            document.getElementById('countdown').textContent = `⏳ 订单确认倒计时 ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function checkout() {
+            if (cart.length === 0) return;
+            const address = document.getElementById('deliveryAddress').value;
+            if (!address.trim()) { showToast('请填写送餐地址'); return; }
+            showToast('🎉 下单成功！正在准备美食...');
+            setTimeout(() => { cart = []; updateCart(); closeCart(); countdownSeconds = 900; updateCountdown(); }, 2000);
+        }
+
+        function openNameModal() { document.getElementById('nameModal').classList.add('open'); document.body.style.overflow = 'hidden'; }
+        function closeNameModal() { document.getElementById('nameModal').classList.remove('open'); document.body.style.overflow = ''; }
+        function saveName() {
+            const name = document.getElementById('nameInput').value.trim();
+            if (!name) { showToast('请输入名字'); return; }
+            userName = name; localStorage.setItem('mianxiangge_userName', name);
+            updateUserNameDisplay(); closeNameModal(); showToast(`欢迎你，${name}！`);
+        }
+
+        function openShopModal() { document.getElementById('shopModal').classList.add('open'); document.body.style.overflow = 'hidden'; }
+        function closeShopModal() { document.getElementById('shopModal').classList.remove('open'); document.body.style.overflow = ''; }
+        function addShopItem() {
+            const name = document.getElementById('shopItemName').value.trim();
+            const price = parseFloat(document.getElementById('shopItemPrice').value);
+            const desc = document.getElementById('shopItemDesc').value.trim();
+            if (!name || !price || !desc) { showToast('请填写完整的商品信息'); return; }
+            if (price <= 0) { showToast('价格必须大于0'); return; }
+            const newItem = { id: Date.now(), name, price, desc, emoji: '🍽️', imageUrl: '', color: '#F5EDE0', rating: 5.0, reviews: 0 };
+            menuData.custom.push(newItem);
+            localStorage.setItem('mianxiangge_customItems', JSON.stringify(menuData.custom));
+            if (currentCat === 'custom') { renderMenu(); }
+            closeShopModal(); showToast(`🎉 ${name} 已上架！`);
+            document.getElementById('shopItemName').value = '';
+            document.getElementById('shopItemPrice').value = '';
+            document.getElementById('shopItemDesc').value = '';
+        }
+
+        function showToast(message) {
+            const toast = document.createElement('div'); toast.className = 'toast'; toast.textContent = message;
+            document.body.appendChild(toast); setTimeout(() => toast.remove(), 3000);
+        }
+
+        document.addEventListener('DOMContentLoaded', init);
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeCart(); closeNameModal(); closeShopModal(); } });
+    </script>
+</body>
+</html>
